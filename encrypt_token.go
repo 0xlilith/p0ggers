@@ -31,7 +31,7 @@ func encrypt(key []byte, message string) (encoded string, err error) {
 func main() {
 	token := flag.String("t", "", "Dicord Bot Token")
 	flag.Parse()
-	key := []byte("asuperstrong32bitpasswordgohere!")
+	key := []byte("AB1g4ssBuNnyJumPingUpTheHillBill")
     ciphertext, err := encrypt(key, *token)
     if err != nil {
         log.Fatal(err)

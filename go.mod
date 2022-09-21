@@ -9,6 +9,7 @@ require (
 )
 
 require (
+	github.com/BurntSushi/xgb v0.0.0-20210121224620-deaf085860bc // indirect
 	github.com/anvie/port-scanner v0.0.0-20180225151059-8159197d3770 // indirect
 	github.com/c-robinson/iplib v1.0.3 // indirect
 	github.com/fatih/color v1.13.0 // indirect
@@ -20,6 +21,7 @@ require (
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/mitchellh/go-ps v1.0.0 // indirect
 	github.com/savaki/jq v0.0.0-20161209013833-0e6baecebbf8 // indirect
+	github.com/vova616/screenshot v0.0.0-20220801010501-56c10359473c // indirect
 	golang.org/x/crypto v0.0.0-20210421170649-83a5a9bb288b // indirect
 	golang.org/x/sys v0.0.0-20211003122950-b1ebd4e1001c // indirect
 )

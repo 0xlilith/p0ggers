@@ -1,6 +1,7 @@
 package malfun
 
 import (
+    "fmt"
     "errors"
     "crypto/aes"
     "crypto/cipher"
@@ -10,11 +11,11 @@ import (
 func DECPT(key []byte, secure string) (decoded string, err error) {
 	cipherText, err := base64.RawStdEncoding.DecodeString(secure)
 	if err != nil {
-		return
+		fmt.Printf("FUCK1")
 	}
 	block, err := aes.NewCipher(key)
 	if err != nil {
-		return
+		fmt.Printf("FUCK2")
 	}
 	if len(cipherText) < aes.BlockSize {
 		err = errors.New("Ciphertext block size is too short!")
