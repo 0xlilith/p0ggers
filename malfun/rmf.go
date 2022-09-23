@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func rmF(fileName string) {
+func RMF(fileName string) {
 	time.Sleep(15 * time.Second)
 	err := os.Remove(fileName)
 	if err != nil {
